@@ -4,7 +4,7 @@ import sys
 
 parser = argparse.ArgumentParser(prog="ytdownload", description = 'Download audio stream from a YouTube video.')
 
-parser.add_argument('-u', '--url', required=True, help='Link for a video to download audio from')
+parser.add_argument('-u', '--url', required=True, help='Link for a video to download audio from. Must be in doublequotes')
 parser.add_argument('-d', '--dir', required=True, help='Saves the directory of the final file')
 parser.add_argument('-f', '--file', required=True, help='Name of the final file')
 
@@ -21,4 +21,4 @@ def show_progress_bar(stream, chunk, bytes_remaining):
   sys.stdout.flush()
 
 yt.register_on_progress_callback(show_progress_bar)
-yt.streams.get_audio_only().download(args.dir, args.file + '.mp4')
+yt.streams.get_audio_only().download(f'{args.dir}', args.file + '.mp4')
