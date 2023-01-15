@@ -21,4 +21,4 @@ def show_progress_bar(stream, chunk, bytes_remaining):
   sys.stdout.flush()
 
 yt.register_on_progress_callback(show_progress_bar)
-yt.streams.get_audio_only().download(f'{args.dir}', args.file + '.mp4')
+yt.streams.get_audio_only().download(args.dir, args.file + '.mp4')
