@@ -1,9 +1,16 @@
+import argparse
 from pytube import YouTube
 import sys
-from tkinter import filedialog
-from tkinter import *
 
-link = input('Enter the link of a video to download: ')
+parser = argparse.ArgumentParser(prog="ytdownload", description = 'Download audio stream from a YouTube video.')
+
+parser.add_argument('-u', '--url', required=True, help='Link for a video to download audio from')
+parser.add_argument('-d', '--dir', required=True, help='Saves the directory of the final file')
+parser.add_argument('-f', '--file', required=True, help='Name of the final file')
+
+args = parser.parse_args()
+
+yt = YouTube(args.url)
 
 def show_progress_bar(stream, chunk, bytes_remaining):
   current = ((stream.filesize - bytes_remaining)/stream.filesize)
@@ -13,18 +20,5 @@ def show_progress_bar(stream, chunk, bytes_remaining):
   sys.stdout.write(' ↳ |{bar}| {percent}%\r'.format(bar=status, percent=percent))
   sys.stdout.flush()
 
-file_name = input('Enter desired filename: ')
-
-yt = YouTube(link)
-
-def folder_select():
-    root = Tk()
-    root.withdraw()
-    folder_selected = filedialog.askdirectory()
-
-folder_select()
-
 yt.register_on_progress_callback(show_progress_bar)
-yt.streams.get_audio_only().download(folder_selected, file_name + '.mp4')
-
-print('Audio was successfully downloaded.')
+yt.streams.get_audio_only().download(args.dir, args.file + '.mp4')
